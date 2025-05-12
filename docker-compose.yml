@@ -24,9 +24,9 @@ services:
         depends_on:
             - pgsql
     pgsql:
-        image: 'postgres:17'
+        image: 'postgres:latest'
         ports:
-            - '${FORWARD_DB_PORT:-5432}:5432'
+            - '${FORWARD_DB_PORT:-5632}:5432'
         environment:
             PGPASSWORD: '${DB_PASSWORD:-secret}'
             POSTGRES_DB: '${DB_DATABASE}'
@@ -39,13 +39,8 @@ services:
             - sail
         healthcheck:
             test:
-                - CMD
-                - pg_isready
-                - '-q'
-                - '-d'
-                - '${DB_DATABASE}'
-                - '-U'
-                - '${DB_USERNAME}'
+                - CMD-SHELL
+                - pg_isready -U $${POSTGRES_USER}
             retries: 3
             timeout: 5s
 networks:
