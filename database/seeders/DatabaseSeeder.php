@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Closure;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +16,44 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->withProgressBar(1, fn () => User::factory(1)
+            ->create([
+                'name' => 'Renaud',
+                'email' => 'renaud@gmail.com',
+                'role' => Role::Admin,
+            ])
+        );
+        $this->command->info('Admin Renaud created.');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $this->withProgressBar(1, fn () => User::factory(1)
+            ->create([
+                'name' => 'Annie',
+                'email' => 'annie@gmail.com',
+                'role' => Role::Admin,
+            ])
+        );
+        $this->command->info('Admin Annie created.');
+    }
+
+    protected function withProgressBar(int $amount, Closure $createCollectionOfOne): Collection
+    {
+        $progressBar = new ProgressBar($this->command->getOutput(), $amount);
+
+        $progressBar->start();
+
+        $items = new Collection;
+
+        foreach (range(1, $amount) as $i) {
+            $items = $items->merge(
+                $createCollectionOfOne()
+            );
+            $progressBar->advance();
+        }
+
+        $progressBar->finish();
+
+        $this->command->getOutput()->writeln('');
+
+        return $items;
     }
 }
