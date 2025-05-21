@@ -4,10 +4,20 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Models\Article;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class ArticleResource extends Resource
 {
@@ -19,7 +29,39 @@ class ArticleResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('title')
+                    ->maxLength(255)
+                    ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+
+                TextInput::make('slug')
+                    ->translateLabel()
+                    ->maxLength(255)
+                    ->required(),
+
+                MarkdownEditor::make('content')
+                    ->required()
+                    ->columnSpanFull(),
+
+                Toggle::make('active')
+                    ->onColor('success')
+                    ->offColor('danger'),
+
+                Select::make('category')
+                    ->relationship('categorie', 'title')
+                    ->native(false)
+                    ->preload()
+                    ->searchable()
+                    ->required(),
+
+                FileUpload::make('image')
+                    // ->disk('scaleway')
+                    // ->directory('character')
+                    ->image()
+                    ->downloadable()
+                    ->openable(),
+
             ]);
     }
 
@@ -27,10 +69,20 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('title')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                IconColumn::make('active')
+                    ->boolean()
+                    ->sortable(),
+
             ])
             ->filters([
-                //
+                TernaryFilter::make('active')
+                    ->trueLabel('Oui')
+                    ->falseLabel('Non'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -41,13 +93,6 @@ class ArticleResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
