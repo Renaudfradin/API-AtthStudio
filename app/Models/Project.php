@@ -15,6 +15,10 @@ class Project extends Model
         'content',
         'active',
         'image',
-        'image2',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
 }

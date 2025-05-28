@@ -1,0 +1,177 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API AtthStudio",
+        "description": "Documentation de l'API AtthStudio",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/archives": {
+            "get": {
+                "tags": [
+                    "Archives"
+                ],
+                "summary": "Get all archives",
+                "operationId": "9d1400e285ac2018b048a0d3fc345601",
+                "responses": {
+                    "200": {
+                        "description": "Get all archives"
+                    }
+                }
+            }
+        },
+        "/api/archives/{archive:slug}": {
+            "get": {
+                "tags": [
+                    "Archives"
+                ],
+                "summary": "Get an archive by slug",
+                "operationId": "b1a747012cf9d39e2bea7657c6143437",
+                "parameters": [
+                    {
+                        "name": "archive",
+                        "in": "path",
+                        "description": "Archive slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get an archive by slug"
+                    }
+                }
+            }
+        },
+        "/api/articles": {
+            "get": {
+                "tags": [
+                    "Articles"
+                ],
+                "summary": "Get all articles",
+                "operationId": "11aa4cc6561a7b94c56d1201d62513ee",
+                "responses": {
+                    "200": {
+                        "description": "Get all articles"
+                    }
+                }
+            }
+        },
+        "/api/articles/{article:slug}": {
+            "get": {
+                "tags": [
+                    "Articles"
+                ],
+                "summary": "Get an article by slug",
+                "operationId": "42665be91b06d368b3dba98cb72d1c2c",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "Article slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get an article by slug"
+                    }
+                }
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get all categories",
+                "operationId": "3f5817a34833d0a1f4af4548dd3aeaba",
+                "responses": {
+                    "200": {
+                        "description": "Get all categories"
+                    }
+                }
+            }
+        },
+        "/api/": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "Default Home",
+                "operationId": "f34249f22f751d316311d36e56f78ade",
+                "responses": {
+                    "200": {
+                        "description": "Default Home"
+                    }
+                }
+            }
+        },
+        "/api/projects": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get all projects",
+                "operationId": "8d4a13ef3fc773ff4031e515460919ea",
+                "responses": {
+                    "200": {
+                        "description": "Get all projects"
+                    }
+                }
+            }
+        },
+        "/api/projects/{project:slug}": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get an project by slug",
+                "operationId": "f5509e4d910b51413259bd551e665366",
+                "parameters": [
+                    {
+                        "name": "project",
+                        "in": "path",
+                        "description": "Project slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get an project by slug"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Archives",
+            "description": "Archives"
+        },
+        {
+            "name": "Articles",
+            "description": "Articles"
+        },
+        {
+            "name": "Categories",
+            "description": "Categories"
+        },
+        {
+            "name": "Home",
+            "description": "Home"
+        },
+        {
+            "name": "Projects",
+            "description": "Projects"
+        }
+    ]
+}

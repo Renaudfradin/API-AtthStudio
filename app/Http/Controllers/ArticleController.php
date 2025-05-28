@@ -2,65 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreArticleRequest;
-use App\Http\Requests\UpdateArticleRequest;
+use App\Http\Resources\ArticleDetailResource;
+use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 
 class ArticleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/articles",
+     *     summary="Get all articles",
+     *     tags={"Articles"},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get all articles"
+     *     )
+     * )
      */
     public function index()
     {
-        //
+        return ArticleResource::collection(Article::active()->paginate(12));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreArticleRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/articles/{article:slug}",
+     *     summary="Get an article by slug",
+     *     tags={"Articles"},
+     *
+     *     @OA\Parameter(
+     *         name="article",
+     *         in="path",
+     *         required=true,
+     *         description="Article slug",
+     *
+     *         @OA\Schema(type="string")
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get an article by slug"
+     *     )
+     * )
      */
     public function show(Article $article)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Article $article)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateArticleRequest $request, Article $article)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Article $article)
-    {
-        //
+        return ArticleDetailResource::make($article);
     }
 }

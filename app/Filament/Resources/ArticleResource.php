@@ -14,6 +14,7 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
@@ -21,9 +22,26 @@ use Illuminate\Support\Str;
 
 class ArticleResource extends Resource
 {
+    protected static ?string $recordTitleAttribute = 'title';
+
     protected static ?string $model = Article::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Articles');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Article');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Articles');
+    }
 
     public static function form(Form $form): Form
     {
@@ -61,7 +79,6 @@ class ArticleResource extends Resource
                     ->image()
                     ->downloadable()
                     ->openable(),
-
             ]);
     }
 
@@ -69,6 +86,8 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('image'),
+
                 TextColumn::make('title')
                     ->translateLabel()
                     ->sortable()
@@ -78,6 +97,10 @@ class ArticleResource extends Resource
                     ->boolean()
                     ->sortable(),
 
+                TextColumn::make('categorie.title')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 TernaryFilter::make('active')
@@ -87,6 +110,7 @@ class ArticleResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

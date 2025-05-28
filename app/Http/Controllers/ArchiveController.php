@@ -2,65 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreArchiveRequest;
-use App\Http\Requests\UpdateArchiveRequest;
+use App\Http\Resources\ArchiveDetailResource;
+use App\Http\Resources\ArchiveResource;
 use App\Models\Archive;
 
 class ArchiveController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/archives",
+     *     summary="Get all archives",
+     *     tags={"Archives"},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get all archives"
+     *     )
+     * )
      */
     public function index()
     {
-        //
+        return ArchiveResource::collection(Archive::active()->get());
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreArchiveRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/archives/{archive:slug}",
+     *     summary="Get an archive by slug",
+     *     tags={"Archives"},
+     *
+     *     @OA\Parameter(
+     *         name="archive",
+     *         in="path",
+     *         required=true,
+     *         description="Archive slug",
+     *
+     *         @OA\Schema(type="string")
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get an archive by slug"
+     *     )
+     * )
      */
     public function show(Archive $archive)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Archive $archive)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateArchiveRequest $request, Archive $archive)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Archive $archive)
-    {
-        //
+        return ArchiveDetailResource::make($archive);
     }
 }

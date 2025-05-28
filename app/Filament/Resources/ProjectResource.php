@@ -5,25 +5,48 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class ProjectResource extends Resource
 {
+    protected static ?string $recordTitleAttribute = 'title';
+
     protected static ?string $model = Project::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Projets');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Projet');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Projets');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')
+                TextInput::make('title')
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
@@ -34,24 +57,15 @@ class ProjectResource extends Resource
                     ->maxLength(255)
                     ->required(),
 
-                Textarea::make('description')
-                    ->maxLength(255)
-                    ->required(),
+                MarkdownEditor::make('content')
+                    ->required()
+                    ->columnSpanFull(),
 
                 Toggle::make('active')
                     ->onColor('success')
                     ->offColor('danger'),
 
                 FileUpload::make('image')
-                    // ->disk('scaleway')
-                    // ->directory('character')
-                    ->image()
-                    ->columnSpanFull()
-                    ->downloadable()
-                    ->openable()
-                    ->required(),
-
-                FileUpload::make('image2')
                     // ->disk('scaleway')
                     // ->directory('character')
                     ->image()
@@ -66,27 +80,27 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('image'),
+
+                TextColumn::make('title')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                IconColumn::make('active')
+                    ->boolean()
+                    ->sortable(),
             ])
             ->filters([
-                //
+                TernaryFilter::make('active')
+                    ->trueLabel('Oui')
+                    ->falseLabel('Non'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

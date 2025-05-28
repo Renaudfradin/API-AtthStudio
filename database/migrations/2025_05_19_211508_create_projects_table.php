@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('content');
             $table->tinyInteger('active');
             $table->string('image')->nullable();
-            $table->string('image2')->nullable();
             $table->timestamps();
         });
     }

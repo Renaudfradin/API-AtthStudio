@@ -15,11 +15,26 @@ use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
+    protected static ?string $recordTitleAttribute = 'email';
+
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $recordTitleAttribute = 'email';
+    public static function getNavigationLabel(): string
+    {
+        return __('Utilisateurs');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Utilisateur');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Utilisateurs');
+    }
 
     public static function form(Form $form): Form
     {

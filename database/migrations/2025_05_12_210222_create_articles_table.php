@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('slug');
             $table->text('content');
             $table->tinyInteger('active');
-            $table->string('category');
+            $table->string('category_id');
             $table->string('image')->nullable();
+            $table->integer('time_read')->default(0);
             $table->timestamps();
         });
     }

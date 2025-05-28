@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 use App\Enums\Role;
+use App\Models\Archive;
+use App\Models\Article;
+use App\Models\Category;
+use App\Models\Project;
 use App\Models\User;
 use Closure;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,9 +15,6 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $this->withProgressBar(1, fn () => User::factory(1)
@@ -33,6 +34,11 @@ class DatabaseSeeder extends Seeder
             ])
         );
         $this->command->info('Admin Annie created.');
+
+        Archive::factory(20)->create();
+        Category::factory(20)->create();
+        Article::factory(20)->create();
+        Project::factory(25)->create();
     }
 
     protected function withProgressBar(int $amount, Closure $createCollectionOfOne): Collection

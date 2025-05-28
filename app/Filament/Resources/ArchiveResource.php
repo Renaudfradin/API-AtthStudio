@@ -4,22 +4,73 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArchiveResource\Pages;
 use App\Models\Archive;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class ArchiveResource extends Resource
 {
+    protected static ?string $recordTitleAttribute = 'title';
+
     protected static ?string $model = Archive::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Archives');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Archive');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Archives');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                TextInput::make('title')
+                    ->maxLength(255)
+                    ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+
+                TextInput::make('slug')
+                    ->translateLabel()
+                    ->maxLength(255)
+                    ->required(),
+
+                MarkdownEditor::make('content')
+                    ->required()
+                    ->columnSpanFull(),
+
+                Toggle::make('active')
+                    ->onColor('success')
+                    ->offColor('danger'),
+
+                FileUpload::make('image')
+                    // ->disk('scaleway')
+                    // ->directory('character')
+                    ->image()
+                    ->downloadable()
+                    ->openable(),
             ]);
     }
 
@@ -27,27 +78,26 @@ class ArchiveResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('image'),
+
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+
+                IconColumn::make('active')
+                    ->boolean()
+                    ->sortable(),
             ])
             ->filters([
-                //
+                TernaryFilter::make('active')
+                    ->trueLabel('Oui')
+                    ->falseLabel('Non'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

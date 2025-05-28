@@ -4,20 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
- */
 class ProjectFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->word(),
+            'slug' => fake()->slug(),
+            'content' => fake()->text(),
+            'active' => fake()->boolean(),
+            'image' => 'https://renaud-portfolio.vercel.app/assets/loup.c2a97082.svg',
         ];
     }
 }

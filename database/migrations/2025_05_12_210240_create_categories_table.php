@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->tinyInteger('active');
-            $table->string('article_id')->nullable();
             $table->timestamps();
         });
     }

@@ -18,9 +18,26 @@ use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
+    protected static ?string $recordTitleAttribute = 'title';
+
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Categories');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Category');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Categories');
+    }
 
     public static function form(Form $form): Form
     {
@@ -40,7 +57,6 @@ class CategoryResource extends Resource
                 Toggle::make('active')
                     ->onColor('success')
                     ->offColor('danger'),
-
             ]);
     }
 
@@ -61,18 +77,12 @@ class CategoryResource extends Resource
                 TernaryFilter::make('active')
                     ->trueLabel('Oui')
                     ->falseLabel('Non'),
-
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [];
     }
 
     public static function getPages(): array

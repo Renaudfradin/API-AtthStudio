@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -16,8 +16,17 @@ class Category extends Model
         'active',
     ];
 
-    public function articles(): BelongsTo
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
+    public function articles(): HasMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Category::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
     }
 }
