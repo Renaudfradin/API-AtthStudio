@@ -86,7 +86,9 @@ class ArchiveResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+                    ->label('Image')
+                    ->disk('scaleway'),
 
                 TextColumn::make('title')
                     ->searchable()

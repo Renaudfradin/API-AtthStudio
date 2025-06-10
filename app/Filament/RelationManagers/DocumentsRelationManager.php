@@ -6,6 +6,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 
 class DocumentsRelationManager extends RelationManager
@@ -31,25 +32,12 @@ class DocumentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                // DocumentColumn::originalName()
-                //     ->iconColor('primary')
-                //     ->wrap()
-                //     ->icon('heroicon-o-document')
-                //     ->weight(FontWeight::SemiBold)
-                //     ->url(fn (Document $record): ?string => $record->original_name ? $record->url : null)
-                //     ->openUrlInNewTab(),
-
-                // DocumentColumn::nature(),
-
-                // DocumentColumn::locale(),
-
-                // DocumentColumn::publicationDate(),
+                ImageColumn::make('image')
+                    ->label('Image')
+                    ->disk('scaleway'),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
-            ])
-            ->filters([
-                // DocumentFilter::locale(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

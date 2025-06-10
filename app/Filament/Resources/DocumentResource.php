@@ -4,22 +4,31 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DocumentResource\Pages;
 use App\Models\Document;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 
 class DocumentResource extends Resource
 {
     protected static ?string $model = Document::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-c-document';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                FileUpload::make('image')
+                    ->disk('scaleway')
+                    ->directory('documents')
+                    ->image()
+                    ->columnSpanFull()
+                    ->downloadable()
+                    ->openable()
+                    ->required(),
             ]);
     }
 
@@ -27,10 +36,9 @@ class DocumentResource extends Resource
     {
         return $table
             ->columns([
-                //
-            ])
-            ->filters([
-                //
+                ImageColumn::make('image')
+                    ->label('Image')
+                    ->disk('scaleway'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -41,13 +49,6 @@ class DocumentResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

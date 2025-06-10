@@ -14,7 +14,7 @@ class ArticleFactory extends Factory
             'slug' => fake()->slug(),
             'content' => fake()->text(),
             'active' => fake()->boolean(),
-            'image' => 'https://renaud-portfolio.vercel.app/assets/loup.c2a97082.svg',
+            'image' => 'details/01JXDF4Q34FYMVHC4R8ZFRAN1X.png',
             'category_id' => Category::factory(),
             'time_read' => fake()->randomDigit(),
         ];

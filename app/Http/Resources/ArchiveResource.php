@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ArchiveResource extends JsonResource
 {
@@ -13,7 +14,7 @@ class ArchiveResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'image' => $this->image,
+            'image' => Storage::disk('scaleway')->url($this->image),
         ];
     }
 }

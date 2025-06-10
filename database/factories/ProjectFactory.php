@@ -13,7 +13,7 @@ class ProjectFactory extends Factory
             'slug' => fake()->slug(),
             'content' => fake()->text(),
             'active' => fake()->boolean(),
-            'image' => 'https://renaud-portfolio.vercel.app/assets/loup.c2a97082.svg',
+            'image' => 'details/01JXDF4Q34FYMVHC4R8ZFRAN1X.png',
         ];
     }
 }
