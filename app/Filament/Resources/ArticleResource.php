@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\RelationManagers\DocumentsRelationManager;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Models\Article;
 use Filament\Forms\Components\FileUpload;
@@ -74,12 +75,19 @@ class ArticleResource extends Resource
                     ->required(),
 
                 FileUpload::make('image')
-                    // ->disk('scaleway')
-                    // ->directory('character')
+                    ->disk('scaleway')
+                    ->directory('details')
                     ->image()
                     ->downloadable()
                     ->openable(),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            DocumentsRelationManager::class,
+        ];
     }
 
     public static function table(Table $table): Table

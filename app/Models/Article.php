@@ -10,6 +10,8 @@ class Article extends Model
 {
     use HasFactory;
 
+    public const MORPH_TYPE = 'Article';
+
     protected $fillable = [
         'title',
         'slug',
@@ -19,6 +21,11 @@ class Article extends Model
         'image',
         'time_read',
     ];
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 
     public function categorie(): BelongsTo
     {

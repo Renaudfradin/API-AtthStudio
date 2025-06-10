@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\RelationManagers\DocumentsRelationManager;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
 use Filament\Forms\Components\FileUpload;
@@ -66,14 +67,22 @@ class ProjectResource extends Resource
                     ->offColor('danger'),
 
                 FileUpload::make('image')
-                    // ->disk('scaleway')
-                    // ->directory('character')
+                    ->disk('scaleway')
+                    ->directory('details')
+                    ->visibility('public')
                     ->image()
                     ->columnSpanFull()
                     ->downloadable()
                     ->openable()
                     ->required(),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            DocumentsRelationManager::class,
+        ];
     }
 
     public static function table(Table $table): Table

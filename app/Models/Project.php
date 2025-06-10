@@ -9,6 +9,8 @@ class Project extends Model
 {
     use HasFactory;
 
+    public const MORPH_TYPE = 'Project';
+
     protected $fillable = [
         'title',
         'slug',
@@ -16,6 +18,11 @@ class Project extends Model
         'active',
         'image',
     ];
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 
     public function scopeActive($query)
     {

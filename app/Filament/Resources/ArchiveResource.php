@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\RelationManagers\DocumentsRelationManager;
 use App\Filament\Resources\ArchiveResource\Pages;
 use App\Models\Archive;
 use Filament\Forms\Components\FileUpload;
@@ -66,12 +67,19 @@ class ArchiveResource extends Resource
                     ->offColor('danger'),
 
                 FileUpload::make('image')
-                    // ->disk('scaleway')
-                    // ->directory('character')
+                    ->disk('scaleway')
+                    ->directory('details')
                     ->image()
                     ->downloadable()
                     ->openable(),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            DocumentsRelationManager::class,
+        ];
     }
 
     public static function table(Table $table): Table
