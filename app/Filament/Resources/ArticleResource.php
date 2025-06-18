@@ -63,11 +63,10 @@ class ArticleResource extends Resource
                     ->required()
                     ->columnSpanFull(),
 
-                Toggle::make('active')
-                    ->onColor('success')
-                    ->offColor('danger'),
+                TextInput::make('time_read')
+                    ->required(),
 
-                Select::make('category')
+                Select::make('category_id')
                     ->relationship('categorie', 'title')
                     ->native(false)
                     ->preload()
@@ -80,6 +79,10 @@ class ArticleResource extends Resource
                     ->image()
                     ->downloadable()
                     ->openable(),
+
+                Toggle::make('active')
+                    ->onColor('success')
+                    ->offColor('danger'),
             ]);
     }
 
