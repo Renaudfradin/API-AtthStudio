@@ -22,12 +22,12 @@ class ArchiveController extends Controller
      */
     public function index()
     {
-        return ArchiveResource::collection(Archive::active()->get());
+        return ArchiveResource::collection(Archive::active()->paginate(12));
     }
 
     /**
      * @OA\Get(
-     *     path="/api/archives/{archive:slug}",
+     *     path="/api/archive/{archive:slug}",
      *     summary="Get an archive by slug",
      *     tags={"Archives"},
      *

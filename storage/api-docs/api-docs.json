@@ -20,13 +20,13 @@
                 }
             }
         },
-        "/api/archives/{archive:slug}": {
+        "/api/archive/{archive:slug}": {
             "get": {
                 "tags": [
                     "Archives"
                 ],
                 "summary": "Get an archive by slug",
-                "operationId": "b1a747012cf9d39e2bea7657c6143437",
+                "operationId": "07ca94570220d4df7cb6c8623a08680a",
                 "parameters": [
                     {
                         "name": "archive",
@@ -59,13 +59,13 @@
                 }
             }
         },
-        "/api/articles/{article:slug}": {
+        "/api/article/{article:slug}": {
             "get": {
                 "tags": [
                     "Articles"
                 ],
                 "summary": "Get an article by slug",
-                "operationId": "42665be91b06d368b3dba98cb72d1c2c",
+                "operationId": "fe1227542694b31b039ced5b0f035099",
                 "parameters": [
                     {
                         "name": "article",
@@ -126,13 +126,13 @@
                 }
             }
         },
-        "/api/projects/{project:slug}": {
+        "/api/project/{project:slug}": {
             "get": {
                 "tags": [
                     "Projects"
                 ],
                 "summary": "Get an project by slug",
-                "operationId": "f5509e4d910b51413259bd551e665366",
+                "operationId": "7533f50290d4cf9468b041518fa2c15c",
                 "parameters": [
                     {
                         "name": "project",

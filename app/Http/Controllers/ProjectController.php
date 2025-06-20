@@ -27,7 +27,7 @@ class ProjectController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/projects/{project:slug}",
+     *     path="/api/project/{project:slug}",
      *     summary="Get an project by slug",
      *     tags={"Projects"},
      *

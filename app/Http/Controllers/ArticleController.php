@@ -27,7 +27,7 @@ class ArticleController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/articles/{article:slug}",
+     *     path="/api/article/{article:slug}",
      *     summary="Get an article by slug",
      *     tags={"Articles"},
      *
