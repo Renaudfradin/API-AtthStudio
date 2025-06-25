@@ -28,6 +28,8 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Contenu';
+
     public static function getNavigationLabel(): string
     {
         return __('Projets');
@@ -106,6 +108,11 @@ class ProjectResource extends Resource
                 TernaryFilter::make('active')
                     ->trueLabel('Oui')
                     ->falseLabel('Non'),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

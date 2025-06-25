@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Models\Archive;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Document;
 use App\Models\Project;
 use App\Models\User;
 use Closure;
@@ -45,8 +46,9 @@ class DatabaseSeeder extends Seeder
                 'active' => true,
             ]);
         });
-        $this->command->info('categories created.');
+        $this->command->info('Categories created.');
 
+        Document::factory(8)->create();
         Archive::factory(20)->create();
         Article::factory(20)->create();
         Project::factory(25)->create();

@@ -17,6 +17,8 @@ class DocumentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-c-document';
 
+    protected static ?string $navigationGroup = 'Contenu';
+
     public static function form(Form $form): Form
     {
         return $form
