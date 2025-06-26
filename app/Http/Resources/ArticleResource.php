@@ -17,6 +17,7 @@ class ArticleResource extends JsonResource
             'content' => $this->content,
             'image' => Storage::disk('scaleway')->url($this->image),
             'time_read' => $this->time_read,
+            'category' => $this->categorie,
         ];
     }
 }
