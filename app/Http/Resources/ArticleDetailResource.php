@@ -21,7 +21,6 @@ class ArticleDetailResource extends JsonResource
             'time_read' => $this->time_read,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'documents' => DocumentResource::collection($this->documents),
         ];
     }
 }
