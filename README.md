@@ -2,6 +2,13 @@
   API-ATTHSTUDIO
 </h1>
 
+### View
+
+<p>API et BackOffice pour AtthStudio</p>
+
+![home](public/img/home.png)
+![article](public/img/article.png)
+
 ### 🛠 Installation & Set Up
 
 1. Install dependencies
@@ -34,4 +41,4 @@ http://127.0.0.1:8001
 
 ### 📚 Documentation
 
-[API Documentation](http://127.0.0.1:8001/api/documentation)
+[API Documentation](https://api-atthstudio.up.railway.app/api/documentation)
