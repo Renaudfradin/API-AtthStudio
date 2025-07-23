@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('title_home');
             $table->string('slug');
             $table->text('content');
             $table->tinyInteger('active');

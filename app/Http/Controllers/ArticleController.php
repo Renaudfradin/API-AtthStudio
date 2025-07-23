@@ -50,4 +50,34 @@ class ArticleController extends Controller
     {
         return ArticleDetailResource::make($article);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/articles/{article:category_id}",
+     *     summary="Get articles by category id",
+     *     tags={"Articles"},
+     *
+     *     @OA\Parameter(
+     *         name="article",
+     *         in="path",
+     *         required=true,
+     *         description="Article category id",
+     *
+     *         @OA\Schema(type="string")
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get articles by category id"
+     *     )
+     * )
+     */
+    public function suggestArticles(Article $article)
+    {
+        return ArticleResource::collection(
+            Article::active()
+                ->where('category_id', $article->category_id)
+                ->get()
+        );
+    }
 }
