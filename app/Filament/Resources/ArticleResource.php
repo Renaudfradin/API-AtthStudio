@@ -60,10 +60,13 @@ class ArticleResource extends Resource
                     ->required(),
 
                 MarkdownEditor::make('content')
+                    ->label('Contenu')
                     ->required()
                     ->columnSpanFull(),
 
                 TextInput::make('time_read')
+                    ->label('Temps de lecture')
+                    ->numeric()
                     ->required(),
 
                 Select::make('category_id')
@@ -74,6 +77,7 @@ class ArticleResource extends Resource
                     ->required(),
 
                 FileUpload::make('image')
+                    ->label('Image')
                     ->disk('scaleway')
                     ->directory('details')
                     ->image()
@@ -82,7 +86,8 @@ class ArticleResource extends Resource
 
                 Toggle::make('active')
                     ->onColor('success')
-                    ->offColor('danger'),
+                    ->offColor('danger')
+                    ->inline(false),
             ]);
     }
 

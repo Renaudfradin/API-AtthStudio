@@ -21,4 +21,6 @@ Route::get('/articles', [ArticleController::class, 'index']);
 
 Route::get('/article/{article:slug}', [ArticleController::class, 'show']);
 
+Route::get('/suggest-articles/{article:category_id}', [ArticleController::class, 'suggestArticles']);
+
 Route::get('/categories', [CategoryController::class, 'index']);

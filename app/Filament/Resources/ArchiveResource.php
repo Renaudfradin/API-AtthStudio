@@ -60,19 +60,22 @@ class ArchiveResource extends Resource
                     ->required(),
 
                 MarkdownEditor::make('content')
+                    ->label('Contenu')
                     ->required()
                     ->columnSpanFull(),
 
-                Toggle::make('active')
-                    ->onColor('success')
-                    ->offColor('danger'),
-
                 FileUpload::make('image')
+                    ->label('Image')
                     ->disk('scaleway')
                     ->directory('details')
                     ->image()
                     ->downloadable()
                     ->openable(),
+
+                Toggle::make('active')
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->inline(false),
             ]);
     }
 

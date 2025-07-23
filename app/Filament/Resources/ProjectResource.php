@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\RelationManagers\DocumentsRelationManager;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -59,6 +58,10 @@ class ProjectResource extends Resource
                     ->maxLength(255)
                     ->required(),
 
+                TextInput::make('title_home')
+                    ->maxLength(255)
+                    ->required(),
+
                 MarkdownEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
@@ -66,16 +69,6 @@ class ProjectResource extends Resource
                 Toggle::make('active')
                     ->onColor('success')
                     ->offColor('danger'),
-
-                FileUpload::make('image')
-                    ->disk('scaleway')
-                    ->directory('details')
-                    ->visibility('public')
-                    ->image()
-                    ->columnSpanFull()
-                    ->downloadable()
-                    ->openable()
-                    ->required(),
             ]);
     }
 

@@ -13,10 +13,10 @@ class Project extends Model
 
     protected $fillable = [
         'title',
+        'title_home',
         'slug',
         'content',
         'active',
-        'image',
     ];
 
     public function documents()

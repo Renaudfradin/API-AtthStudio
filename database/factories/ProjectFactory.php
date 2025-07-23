@@ -10,10 +10,10 @@ class ProjectFactory extends Factory
     {
         return [
             'title' => fake()->word(),
+            'title_home' => fake()->word(),
             'slug' => fake()->slug(),
             'content' => fake()->text(),
             'active' => fake()->boolean(),
-            'image' => 'details/01JXDF4Q34FYMVHC4R8ZFRAN1X.png',
         ];
     }
 }
