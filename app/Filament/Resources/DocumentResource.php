@@ -19,6 +19,21 @@ class DocumentResource extends Resource
 
     protected static ?string $navigationGroup = 'Contenu';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('Images');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Image');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Images');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
