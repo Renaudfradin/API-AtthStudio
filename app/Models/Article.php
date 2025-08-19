@@ -22,6 +22,10 @@ class Article extends Model
         'time_read',
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function categorie(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');

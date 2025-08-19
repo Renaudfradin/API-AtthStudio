@@ -8,6 +8,7 @@ use App\Filament\Resources\ProjectResource\Pages\EditProject;
 use App\Filament\Resources\ProjectResource\Pages\ListProjects;
 use App\Filament\Resources\ProjectResource\Pages\ViewProject;
 use App\Models\Project;
+use App\Traits\HasRoleBasedVisibility;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -27,6 +28,8 @@ use Illuminate\Support\Str;
 
 class ProjectResource extends Resource
 {
+    use HasRoleBasedVisibility;
+
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $model = Project::class;
@@ -55,27 +58,33 @@ class ProjectResource extends Resource
         return $schema
             ->components([
                 TextInput::make('title')
+                    ->label(__('Titre'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 TextInput::make('slug')
+                    ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
                 TextInput::make('title_home')
+                    ->label(__('Titre sur la Homepage'))
                     ->maxLength(255)
                     ->required(),
 
+                Toggle::make('active')
+                    ->label(__('Actif'))
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->inline(false),
+
                 MarkdownEditor::make('content')
+                    ->label(__('Contenu'))
                     ->required()
                     ->columnSpanFull(),
-
-                Toggle::make('active')
-                    ->onColor('success')
-                    ->offColor('danger'),
             ]);
     }
 
@@ -106,13 +115,13 @@ class ProjectResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::applyAdminVisibility(DeleteBulkAction::make()),
                 ]),
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                self::applyAdminVisibility(EditAction::make()),
+                self::applyAdminVisibility(DeleteAction::make()),
             ]);
     }
 

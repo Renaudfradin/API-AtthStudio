@@ -7,6 +7,7 @@ use App\Filament\Resources\DocumentResource\Pages\EditDocument;
 use App\Filament\Resources\DocumentResource\Pages\ListDocuments;
 use App\Filament\Resources\DocumentResource\Pages\ViewDocument;
 use App\Models\Document;
+use App\Traits\HasRoleBasedVisibility;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -19,9 +20,16 @@ use Filament\Tables\Table;
 
 class DocumentResource extends Resource
 {
+    use HasRoleBasedVisibility;
+
     protected static ?string $model = Document::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-c-document';
+
+    public static function canViewAny(): bool
+    {
+        return self::isCurrentUserAdmin();
+    }
 
     protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
 

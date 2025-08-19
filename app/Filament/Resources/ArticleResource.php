@@ -7,6 +7,7 @@ use App\Filament\Resources\ArticleResource\Pages\EditArticle;
 use App\Filament\Resources\ArticleResource\Pages\ListArticles;
 use App\Filament\Resources\ArticleResource\Pages\ViewArticle;
 use App\Models\Article;
+use App\Traits\HasRoleBasedVisibility;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -28,6 +29,8 @@ use Illuminate\Support\Str;
 
 class ArticleResource extends Resource
 {
+    use HasRoleBasedVisibility;
+
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $model = Article::class;
@@ -121,19 +124,14 @@ class ArticleResource extends Resource
                     ->trueLabel('Oui')
                     ->falseLabel('Non'),
             ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                self::applyAdminVisibility(EditAction::make()),
+                self::applyAdminVisibility(DeleteAction::make()),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::applyAdminVisibility(DeleteBulkAction::make()),
                 ]),
             ]);
     }

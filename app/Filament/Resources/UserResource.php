@@ -8,6 +8,7 @@ use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
 use App\Models\User;
+use App\Traits\HasRoleBasedVisibility;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -21,11 +22,18 @@ use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
+    use HasRoleBasedVisibility;
+
     protected static ?string $recordTitleAttribute = 'email';
 
     protected static ?string $model = User::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-users';
+
+    public static function canViewAny(): bool
+    {
+        return self::isCurrentUserAdmin();
+    }
 
     public static function getNavigationLabel(): string
     {
@@ -99,8 +107,8 @@ class UserResource extends Resource
 
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                self::applyAdminVisibility(EditAction::make()),
+                self::applyAdminVisibility(DeleteAction::make()),
             ]);
     }
 

@@ -19,6 +19,13 @@ class Project extends Model
         'active',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'active' => 'boolean',
+        ];
+    }
+
     public function documents()
     {
         return $this->morphMany(Document::class, 'documentable');

@@ -4,9 +4,12 @@ namespace App\Policies;
 
 use App\Models\Archive;
 use App\Models\User;
+use App\Traits\HasRoleBasedVisibility;
 
 class ArchivePolicy
 {
+    use HasRoleBasedVisibility;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -28,7 +31,7 @@ class ArchivePolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -36,7 +39,7 @@ class ArchivePolicy
      */
     public function update(User $user, Archive $archive): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -44,7 +47,7 @@ class ArchivePolicy
      */
     public function delete(User $user, Archive $archive): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -52,7 +55,7 @@ class ArchivePolicy
      */
     public function restore(User $user, Archive $archive): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -60,6 +63,6 @@ class ArchivePolicy
      */
     public function forceDelete(User $user, Archive $archive): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 }

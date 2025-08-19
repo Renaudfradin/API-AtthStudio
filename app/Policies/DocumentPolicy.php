@@ -4,9 +4,12 @@ namespace App\Policies;
 
 use App\Models\Document;
 use App\Models\User;
+use App\Traits\HasRoleBasedVisibility;
 
 class DocumentPolicy
 {
+    use HasRoleBasedVisibility;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -28,7 +31,7 @@ class DocumentPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -36,7 +39,7 @@ class DocumentPolicy
      */
     public function update(User $user, Document $document): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -44,7 +47,7 @@ class DocumentPolicy
      */
     public function delete(User $user, Document $document): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -52,7 +55,7 @@ class DocumentPolicy
      */
     public function restore(User $user, Document $document): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -60,6 +63,6 @@ class DocumentPolicy
      */
     public function forceDelete(User $user, Document $document): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 }
