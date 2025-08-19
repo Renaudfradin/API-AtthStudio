@@ -8,6 +8,7 @@ use App\Filament\Resources\ProjectResource\Pages\EditProject;
 use App\Filament\Resources\ProjectResource\Pages\ListProjects;
 use App\Filament\Resources\ProjectResource\Pages\ViewProject;
 use App\Models\Project;
+use App\Traits\HasRoleBasedVisibility;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -27,6 +28,8 @@ use Illuminate\Support\Str;
 
 class ProjectResource extends Resource
 {
+    use HasRoleBasedVisibility;
+
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $model = Project::class;
@@ -112,13 +115,13 @@ class ProjectResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::applyAdminVisibility(DeleteBulkAction::make()),
                 ]),
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                self::applyAdminVisibility(EditAction::make()),
+                self::applyAdminVisibility(DeleteAction::make()),
             ]);
     }
 

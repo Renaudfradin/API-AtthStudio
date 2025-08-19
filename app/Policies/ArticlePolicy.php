@@ -4,9 +4,12 @@ namespace App\Policies;
 
 use App\Models\Article;
 use App\Models\User;
+use App\Traits\HasRoleBasedVisibility;
 
 class ArticlePolicy
 {
+    use HasRoleBasedVisibility;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -28,7 +31,7 @@ class ArticlePolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -36,7 +39,7 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -44,7 +47,7 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -52,7 +55,7 @@ class ArticlePolicy
      */
     public function restore(User $user, Article $article): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -60,6 +63,6 @@ class ArticlePolicy
      */
     public function forceDelete(User $user, Article $article): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 }

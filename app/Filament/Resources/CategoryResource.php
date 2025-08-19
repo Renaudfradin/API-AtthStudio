@@ -7,6 +7,7 @@ use App\Filament\Resources\CategoryResource\Pages\EditCategory;
 use App\Filament\Resources\CategoryResource\Pages\ListCategories;
 use App\Filament\Resources\CategoryResource\Pages\ViewCategory;
 use App\Models\Category;
+use App\Traits\HasRoleBasedVisibility;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -25,6 +26,8 @@ use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
+    use HasRoleBasedVisibility;
+
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $model = Category::class;
@@ -89,13 +92,13 @@ class CategoryResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::applyAdminVisibility(DeleteBulkAction::make()),
                 ]),
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                self::applyAdminVisibility(EditAction::make()),
+                self::applyAdminVisibility(DeleteAction::make()),
             ]);
     }
 

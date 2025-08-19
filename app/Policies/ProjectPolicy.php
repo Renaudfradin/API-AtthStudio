@@ -4,9 +4,12 @@ namespace App\Policies;
 
 use App\Models\Project;
 use App\Models\User;
+use App\Traits\HasRoleBasedVisibility;
 
 class ProjectPolicy
 {
+    use HasRoleBasedVisibility;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -28,7 +31,7 @@ class ProjectPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -36,7 +39,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -44,7 +47,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -52,7 +55,7 @@ class ProjectPolicy
      */
     public function restore(User $user, Project $project): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 
     /**
@@ -60,6 +63,6 @@ class ProjectPolicy
      */
     public function forceDelete(User $user, Project $project): bool
     {
-        return true;
+        return self::isCurrentUserAdmin();
     }
 }
