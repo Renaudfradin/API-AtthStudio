@@ -3,16 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Filament\RelationManagers\DocumentsRelationManager;
-use App\Filament\Resources\ArchiveResource\Pages;
+use App\Filament\Resources\ArchiveResource\Pages\CreateArchive;
+use App\Filament\Resources\ArchiveResource\Pages\EditArchive;
+use App\Filament\Resources\ArchiveResource\Pages\ListArchives;
+use App\Filament\Resources\ArchiveResource\Pages\ViewArchive;
 use App\Models\Archive;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
@@ -25,9 +32,9 @@ class ArchiveResource extends Resource
 
     protected static ?string $model = Archive::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Contenu';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
 
     public static function getNavigationLabel(): string
     {
@@ -44,10 +51,10 @@ class ArchiveResource extends Resource
         return __('Archives');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('title')
                     ->maxLength(255)
                     ->required()
@@ -103,25 +110,25 @@ class ArchiveResource extends Resource
                     ->trueLabel('Oui')
                     ->falseLabel('Non'),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListArchives::route('/'),
-            'create' => Pages\CreateArchive::route('/create'),
-            'view' => Pages\ViewArchive::route('/{record}'),
-            'edit' => Pages\EditArchive::route('/{record}/edit'),
+            'index' => ListArchives::route('/'),
+            'create' => CreateArchive::route('/create'),
+            'view' => ViewArchive::route('/{record}'),
+            'edit' => EditArchive::route('/{record}/edit'),
         ];
     }
 }
