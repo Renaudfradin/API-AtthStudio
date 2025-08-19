@@ -55,27 +55,33 @@ class ProjectResource extends Resource
         return $schema
             ->components([
                 TextInput::make('title')
+                    ->label(__('Titre'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 TextInput::make('slug')
+                    ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
                 TextInput::make('title_home')
+                    ->label(__('Titre sur la Homepage'))
                     ->maxLength(255)
                     ->required(),
 
+                Toggle::make('active')
+                    ->label(__('Actif'))
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->inline(false),
+
                 MarkdownEditor::make('content')
+                    ->label(__('Contenu'))
                     ->required()
                     ->columnSpanFull(),
-
-                Toggle::make('active')
-                    ->onColor('success')
-                    ->offColor('danger'),
             ]);
     }
 
