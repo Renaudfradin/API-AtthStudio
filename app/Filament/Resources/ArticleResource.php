@@ -117,8 +117,7 @@ class ArticleResource extends Resource
 
                 TextColumn::make('categorie.title')
                     ->translateLabel()
-                    ->sortable()
-                    ->searchable(),
+                    ->sortable(),
             ])
             ->filters([
                 TernaryFilter::make('active')
