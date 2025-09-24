@@ -56,6 +56,7 @@ return [
             'url' => env('OBJECT_STORAGE_PUBLIC_URL'),
             'endpoint' => env('SCALEWAY_ENDPOINT', 'https://s3.fr-par.scw.cloud'),
             'use_path_style_endpoint' => true,
+            'visibility' => 'public',
         ],
 
         's3' => [

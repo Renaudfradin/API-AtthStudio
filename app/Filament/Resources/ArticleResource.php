@@ -92,7 +92,8 @@ class ArticleResource extends Resource
                     ->directory('details')
                     ->image()
                     ->downloadable()
-                    ->openable(),
+                    ->openable()
+                    ->visibility('public'),
 
                 Toggle::make('active')
                     ->onColor('success')
@@ -116,8 +117,7 @@ class ArticleResource extends Resource
 
                 TextColumn::make('categorie.title')
                     ->translateLabel()
-                    ->sortable()
-                    ->searchable(),
+                    ->sortable(),
             ])
             ->filters([
                 TernaryFilter::make('active')
