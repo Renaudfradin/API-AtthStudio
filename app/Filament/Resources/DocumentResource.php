@@ -59,7 +59,8 @@ class DocumentResource extends Resource
                     ->columnSpanFull()
                     ->downloadable()
                     ->openable()
-                    ->required(),
+                    ->required()
+                    ->visibility('public'),
             ]);
     }
 

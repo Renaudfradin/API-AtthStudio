@@ -26,7 +26,8 @@ class DocumentsRelationManager extends RelationManager
                     ->columnSpanFull()
                     ->downloadable()
                     ->openable()
-                    ->required(),
+                    ->required()
+                    ->visibility('public'),
             ]);
     }
 

@@ -80,7 +80,8 @@ class ArchiveResource extends Resource
                     ->directory('details')
                     ->image()
                     ->downloadable()
-                    ->openable(),
+                    ->openable()
+                    ->visibility('public'),
 
                 Toggle::make('active')
                     ->onColor('success')
