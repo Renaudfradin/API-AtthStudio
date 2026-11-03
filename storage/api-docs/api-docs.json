@@ -20,13 +20,13 @@
                 }
             }
         },
-        "/api/archive/{archive:slug}": {
+        "/api/archive/{archive}": {
             "get": {
                 "tags": [
                     "Archives"
                 ],
                 "summary": "Get an archive by slug",
-                "operationId": "07ca94570220d4df7cb6c8623a08680a",
+                "operationId": "439220bc7b5bf67b406e0c8217e1adda",
                 "parameters": [
                     {
                         "name": "archive",
@@ -59,13 +59,13 @@
                 }
             }
         },
-        "/api/article/{article:slug}": {
+        "/api/article/{article}": {
             "get": {
                 "tags": [
                     "Articles"
                 ],
                 "summary": "Get an article by slug",
-                "operationId": "fe1227542694b31b039ced5b0f035099",
+                "operationId": "85690454ae956559039798d39da0bfec",
                 "parameters": [
                     {
                         "name": "article",
@@ -80,6 +80,31 @@
                 "responses": {
                     "200": {
                         "description": "Get an article by slug"
+                    }
+                }
+            }
+        },
+        "/api/suggest-articles/{category_id}": {
+            "get": {
+                "tags": [
+                    "Articles"
+                ],
+                "summary": "Get articles by category id",
+                "operationId": "d5e32e15818fe0a5f2877cea88ab8967",
+                "parameters": [
+                    {
+                        "name": "category_id",
+                        "in": "path",
+                        "description": "Article category id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get articles by category id"
                     }
                 }
             }
@@ -126,13 +151,13 @@
                 }
             }
         },
-        "/api/project/{project:slug}": {
+        "/api/project/{project}": {
             "get": {
                 "tags": [
                     "Projects"
                 ],
                 "summary": "Get an project by slug",
-                "operationId": "7533f50290d4cf9468b041518fa2c15c",
+                "operationId": "34a0e5f70b8c5e2060a181d44fc807d5",
                 "parameters": [
                     {
                         "name": "project",

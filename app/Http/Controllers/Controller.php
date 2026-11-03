@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-/**
- * @OA\Info(
- *     title="API AtthStudio",
- *     version="1.0.0",
- *     description="Documentation de l'API AtthStudio",
- * )
- */
+use OpenApi\Attributes as OA;
+
+#[OA\Info(
+    title: 'API AtthStudio',
+    version: '1.0.0',
+    description: "Documentation de l'API AtthStudio",
+)]
 abstract class Controller
 {
     //

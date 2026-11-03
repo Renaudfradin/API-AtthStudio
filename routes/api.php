@@ -5,9 +5,22 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'healthy',
+        'timestamp' => now()->toISOString(),
+        'database' => rescue(
+            fn () => DB::connection()->getPdo() ? 'connected' : 'disconnected',
+            'disconnected',
+            false,
+        ),
+    ]);
+});
 
 Route::get('/projects', [ProjectController::class, 'index']);
 
