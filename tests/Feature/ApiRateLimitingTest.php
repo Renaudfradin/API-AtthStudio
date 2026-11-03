@@ -10,10 +10,10 @@ it('returns 429 when the api rate limit is exceeded', function () {
     RateLimiter::clear('api');
 
     for ($i = 0; $i < 3; $i++) {
-        $this->getJson('/api/health')->assertOk();
+        $this->getJson('/api')->assertOk();
     }
 
-    $this->getJson('/api/health')
+    $this->getJson('/api')
         ->assertStatus(429)
         ->assertJson([
             'message' => 'Trop de requêtes. Veuillez réessayer plus tard.',

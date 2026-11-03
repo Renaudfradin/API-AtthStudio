@@ -41,6 +41,8 @@ class ProjectController extends Controller
     )]
     public function show(Project $project)
     {
+        $project->load('documents');
+
         return ProjectDetailResource::make($project);
     }
 }

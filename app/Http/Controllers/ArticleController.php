@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ArticleDetailResource;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use App\Models\Category;
 use OpenApi\Attributes as OA;
 
 class ArticleController extends Controller
@@ -41,6 +42,8 @@ class ArticleController extends Controller
     )]
     public function show(Article $article)
     {
+        $article->load('categorie');
+
         return ArticleDetailResource::make($article);
     }
 
@@ -54,19 +57,19 @@ class ArticleController extends Controller
                 in: 'path',
                 required: true,
                 description: 'Article category id',
-                schema: new OA\Schema(type: 'string'),
+                schema: new OA\Schema(type: 'integer'),
             ),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Get articles by category id'),
         ],
     )]
-    public function suggestArticles(Article $article)
+    public function suggestArticles(Category $category)
     {
+        abort_unless($category->active, 404);
+
         return ArticleResource::collection(
-            Article::active()
-                ->where('category_id', $article->category_id)
-                ->get()
+            $category->articles()->active()->orderBy('id')->get()
         );
     }
 }

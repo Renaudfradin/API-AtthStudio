@@ -17,6 +17,12 @@ class ResetPostgresSequences extends Command
 
     public function handle(): int
     {
+        if (DB::connection()->getDriverName() !== 'pgsql') {
+            $this->error('Cette commande ne fonctionne qu\'avec PostgreSQL (driver actuel : '.DB::connection()->getDriverName().').');
+
+            return Command::FAILURE;
+        }
+
         $this->info('Récupération des tables avec séquences...');
 
         $isDebug = $this->option('debug');

@@ -41,6 +41,8 @@ class ArchiveController extends Controller
     )]
     public function show(Archive $archive)
     {
+        $archive->load('documents');
+
         return ArchiveDetailResource::make($archive);
     }
 }

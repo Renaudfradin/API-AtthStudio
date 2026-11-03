@@ -5,7 +5,7 @@
         "build": "vite build",
         "dev": "vite",
         "bruno:run": "cd bruno && bru run --env Local",
-        "bruno:run:ci": "cd bruno && bru run --env CI --reporter-junit ../reports/bruno-junit.xml"
+        "bruno:run:ci": "mkdir -p reports && cd bruno && bru run --env CI --reporter-junit ../reports/bruno-junit.xml"
     },
     "devDependencies": {
         "@usebruno/cli": "^2.0.0",

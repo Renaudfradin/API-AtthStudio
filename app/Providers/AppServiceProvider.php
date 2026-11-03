@@ -2,9 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Archive;
+use App\Models\Article;
+use App\Models\Project;
+use Filament\Tables\Table;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,10 +30,22 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureRateLimiting();
+        $this->configurePublicRouteBindings();
 
-        if (env('APP_ENV') === 'production') {
+        Table::configureUsing(function (Table $table): void {
+            $table->columnManager();
+        });
+
+        if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
+    }
+
+    protected function configurePublicRouteBindings(): void
+    {
+        Route::bind('article', fn (string $value) => Article::query()->active()->where('slug', $value)->firstOrFail());
+        Route::bind('project', fn (string $value) => Project::query()->active()->where('slug', $value)->firstOrFail());
+        Route::bind('archive', fn (string $value) => Archive::query()->active()->where('slug', $value)->firstOrFail());
     }
 
     protected function configureRateLimiting(): void

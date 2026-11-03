@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class Deploy extends Command
 {
@@ -25,39 +26,50 @@ class Deploy extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $this->info('Starting deployment process...');
 
         $commands = [
-            'optimize:clear' => 'Clearing all optimized files...',
-            'config:clear' => 'Clearing configuration cache...',
-            'route:clear' => 'Clearing route cache...',
-            'view:clear' => 'Clearing view cache...',
-            'cache:clear' => 'Clearing application cache...',
-            'migrate' => 'Running database migrations...',
-            'storage:link' => 'Creating storage symbolic links...',
+            ['optimize:clear', [], 'Clearing all optimized files...'],
+            ['migrate', ['--force' => true], 'Running database migrations...'],
+            ['storage:link', [], 'Creating storage symbolic links...'],
+            ['l5-swagger:generate', [], 'Generating OpenAPI documentation...'],
+            ['config:cache', [], 'Caching configuration...'],
+            ['route:cache', [], 'Caching routes...'],
+            ['view:cache', [], 'Caching views...'],
         ];
 
-        foreach ($commands as $command => $description) {
+        foreach ($commands as [$command, $parameters, $description]) {
             $this->info($description);
 
             try {
-                $exitCode = Artisan::call($command);
+                $exitCode = Artisan::call($command, $parameters);
+            } catch (Throwable $exception) {
+                $this->error("✗ {$command} threw exception: ".$exception->getMessage());
+                Log::error("Deploy command exception: {$command}", ['exception' => $exception]);
 
-                if ($exitCode === 0) {
-                    $this->info("✓ {$command} executed successfully");
-                } else {
-                    $this->error("✗ {$command} failed with exit code {$exitCode}");
-                    Log::error("Deploy command failed: {$command}", ['exit_code' => $exitCode]);
+                return Command::FAILURE;
+            }
+
+            if ($exitCode !== Command::SUCCESS) {
+                $this->error("✗ {$command} failed with exit code {$exitCode}");
+                $output = trim(Artisan::output());
+
+                if ($output !== '') {
+                    $this->line($output);
                 }
 
-                $this->newLine();
-            } catch (\Exception $e) {
-                $this->error("✗ {$command} threw exception: ".$e->getMessage());
-                Log::error("Deploy command exception: {$command}", ['exception' => $e]);
-                $this->newLine();
+                Log::error("Deploy command failed: {$command}", [
+                    'exit_code' => $exitCode,
+                    'output' => $output,
+                ]);
+
+                return Command::FAILURE;
             }
+
+            $this->info("✓ {$command} executed successfully");
+            $this->newLine();
         }
 
         $this->info('Deployment process completed!');

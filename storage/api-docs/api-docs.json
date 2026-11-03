@@ -98,7 +98,7 @@
                         "description": "Article category id",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
