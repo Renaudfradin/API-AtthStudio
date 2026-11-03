@@ -22,7 +22,7 @@ class Category extends Model
 
     public function articles(): HasMany
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Article::class);
     }
 
     public function scopeActive($query)
