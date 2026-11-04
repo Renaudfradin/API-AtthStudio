@@ -1,0 +1,40 @@
+# Remplace le Caddyfile Railpack.
+# FrankenPHP lance sinon ~2 threads PHP par CPU visible, sans les recycler.
+# Railway facture cette RAM même quand l'API ne reçoit rien.
+{
+	admin off
+	persist_config off
+	auto_https off
+
+	{$CADDY_GLOBAL_OPTIONS}
+
+	log {
+		format json
+		output stderr
+		level ERROR
+	}
+
+	frankenphp {
+		num_threads 2
+		max_threads 2
+		max_requests 500
+		{$FRANKENPHP_CONFIG}
+	}
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+:{$PORT:80} {
+	root * {{ .RAILPACK_PHP_ROOT_DIR }}
+
+	encode zstd br gzip
+
+	file_server {
+		hide .git
+		hide .env*
+	}
+
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+	php_server
+}
